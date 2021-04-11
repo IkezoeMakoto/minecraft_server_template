@@ -4,7 +4,7 @@ After=network-online.target
 
 [Service]
 Environment=ENV=%i
-ExecStart=/usr/bin/screen -Dm -S %i ./scripts/run-server.sh
+ExecStart=/usr/bin/screen -Dm -S %i /your/pulled/this/project/path/scripts/run-server.sh
 
 ExecStop=/usr/bin/screen -S %i -X stuff "say Server will be shutdown in 30s\015"
 ExecStop=/bin/sleep 10
