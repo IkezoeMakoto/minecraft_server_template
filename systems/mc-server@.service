@@ -3,16 +3,16 @@ Description=Minecraft Server
 After=network-online.target
 
 [Service]
-Environment=SERVER=%i
-ExecStart=/usr/bin/screen -Dm -S %i server/run.sh
+Environment=ENV=%i
+ExecStart=/usr/bin/screen -Dm -S %i ./scripts/run-server.sh
 
-ExecStop=/usr/bin/screen -S %i -X stuff "say %i will be shutdown in 30s\015"
+ExecStop=/usr/bin/screen -S %i -X stuff "say Server will be shutdown in 30s\015"
 ExecStop=/bin/sleep 10
-ExecStop=/usr/bin/screen -S %i -X stuff "say %i will be shutdown in 20s\015"
+ExecStop=/usr/bin/screen -S %i -X stuff "say Server will be shutdown in 20s\015"
 ExecStop=/bin/sleep 10
-ExecStop=/usr/bin/screen -S %i -X stuff "say %i will be shutdown in 10s\015"
+ExecStop=/usr/bin/screen -S %i -X stuff "say Server will be shutdown in 10s\015"
 ExecStop=/bin/sleep 5
-ExecStop=/usr/bin/screen -S %i -X stuff "say %i will be shutdown in 5s\015"
+ExecStop=/usr/bin/screen -S %i -X stuff "say Server will be shutdown in 5s\015"
 ExecStop=/bin/sleep 5
 ExecStop=/usr/bin/screen -S %i -X stuff "save-all\015"
 ExecStop=/usr/bin/screen -S %i -X stuff "stop\015"
