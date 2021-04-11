@@ -1,0 +1,12 @@
+[Unit]
+Description = mc-server-backup timer
+Wants = multi-user.target
+After = multi-user.target
+
+[Timer]
+OnCalendar = *-*-* 4:00:00
+RandomizedDelaySec = 30minute
+Unit = mc-server-backup@%i.service
+
+[Install]
+WantedBy = timers.target

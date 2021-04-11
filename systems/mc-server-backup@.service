@@ -1,0 +1,9 @@
+[Unit]
+Description=Minecraft Server Backup
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+Environment=ENV=%i
+ExecStart=/your/pulled/this/project/path/scripts/full-backup.sh
