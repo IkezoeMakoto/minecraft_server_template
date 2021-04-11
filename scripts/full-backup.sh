@@ -1,6 +1,9 @@
 #!/bin/bash -eu
 # debug mode
 debug=${debug:-}
+if [ -n "$debug" ]; then
+  set -x
+fi
 
 function error_handler() {
   echo "[`date`]: ERROR!" >&2
@@ -14,19 +17,19 @@ function service_restart() {
 trap error_handler ERR
 
 # shellcheck disable=SC2046
-$debug cd `dirname $0`
+cd `dirname $0`/..
 # shellcheck disable=SC1090
-. ../envs/$ENV
+. envs/$ENV
 
-MC_PATH=../servers/$SERVER_DIR
+MC_PATH=servers/$SERVER_DIR
 BK_GEN="3"
 
-BK_DIR=../backups
+BK_DIR=backups
 BK_TIME=`date +%Y%m%d-%H%M%S`
 BK_PREFIX="mc_full_"
 BK_SUFFIX=".tar.gz"
 BK_NAME=$BK_PREFIX$BK_TIME$BK_SUFFIX
-BK_PATH="$BK_DIR/$ENV/$BK_NAME"
+BK_PATH="$BK_DIR/$SERVER_DIR/$BK_NAME"
 
 echo "[`date`]: ==== Full backup start mc-server@$ENV data ===="
 
@@ -43,6 +46,8 @@ $debug sleep 32
 echo "[`date`]: > Stopped mc-server@$ENV"
 
 echo "[`date`]: >> Full Backup start ..."
+# ディレクトリなければ作っておく
+$debug mkdir -p $BK_DIR/$ENV
 # バックアップ
 $debug tar cfz $BK_PATH $MC_PATH
 # 完了するまで念の為ちょっと待つ
