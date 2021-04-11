@@ -1,7 +1,8 @@
 #!/bin/sh -eu
+debug=${debug:-}
 # shellcheck disable=SC2046
-cd `dirname $0`
+$debug cd `dirname $0`
 # shellcheck disable=SC1090
 . ../envs/$ENV
-cd ../servers/$SERVER_DIR
-java -Xmx2048M -Xms2048M -jar ./$SERVER_FILE nogui
+$debug cd ../servers/$SERVER_DIR
+$debug java -Xmx2048M -Xms2048M -jar ./$SERVER_FILE nogui
