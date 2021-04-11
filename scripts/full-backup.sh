@@ -3,9 +3,13 @@
 debug=${debug:-}
 
 function error_handler() {
-  echo "ERROR" >&2
+  echo "[`date`]: ERROR!" >&2
   exit 1
 }
+function service_restart() {
+  $debug systemctl start mc-server@$ENV
+}
+
 # コマンドの返り値が非ゼロのときハンドラを実行するように指定する
 trap error_handler ERR
 
@@ -32,6 +36,8 @@ $debug systemctl status mc-server@$ENV > /dev/null
 echo "[`date`]: > Stopping mc-server@$ENV ..."
 # サービスを一旦停止
 $debug systemctl stop mc-server@$ENV
+# エラー発生時はサービス起動してからエラーハンドリングする
+trap "service_restart;error_handler" ERR
 # 停止まで30sかかるので待つ
 $debug sleep 32
 echo "[`date`]: > Stopped mc-server@$ENV"
@@ -50,5 +56,5 @@ echo "[`date`]: >> Old Backup remove done!"
 
 # 止めてたサービスを開始する
 echo "[`date`]: > Starting mc-server@$ENV ..."
-$debug systemctl start mc-server@$ENV
+$debug service_restart
 echo "[`date`]: Full backup end!"
